@@ -10,5 +10,5 @@ func Run() {
 
 	server.Initialization()
 
-	server.Run(":8082")
+	server.Run(":8084")
 }

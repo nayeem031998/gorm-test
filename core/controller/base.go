@@ -16,7 +16,7 @@ type Server struct {
 }
 
 func (server *Server) Initialization() {
-	dsn := "host=localhost user=postgres password=123456 dbname=fitpass port=5432"
+	dsn := "host=localhost user=postgres password=123456 dbname=school port=5432"
 	var err error
 	server.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
