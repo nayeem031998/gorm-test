@@ -9,3 +9,6 @@ type Subject struct {
 	Name  string `json:"Name"`
 	Class int    `json:"class"`
 }
+func (SD *Subject) TableName() string {
+	return "myschema.subject"
+}

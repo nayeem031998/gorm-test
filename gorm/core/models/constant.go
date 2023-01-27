@@ -6,4 +6,5 @@ func GetSchema() (string, string, string) {
 		class   = "myschema.class"
 		subject = "myschema.subject"
 	)
-	return student, class, subject} 
+	return student, class, subject
+} 

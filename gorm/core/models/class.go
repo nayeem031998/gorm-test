@@ -1,8 +1,8 @@
 package models
-import(
+
+import (
 	"gorm.io/gorm"
 )
-
 
 type Class struct {
 	gorm.Model
@@ -11,4 +11,8 @@ type Class struct {
 	Tables     int    `json:"Tables"`
 	Whiteboard int    `json:"white_board"`
 	Standard   string `json:"Standard"`
+}
+
+func (CD *Class) TableName() string {
+	return "myschema.class"
 }
