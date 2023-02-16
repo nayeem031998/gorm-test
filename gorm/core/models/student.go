@@ -20,9 +20,9 @@ func (RD *Student) TableName() string {
 	return "myschema.student"
 }
 
-func (RD *Student) GetStudentDetails(DB *gorm.DB) {
-	DB.Debug().Model(RD).Find(&RD)
-}
+//func (RD *Student) GetStudentDetails(DB *gorm.DB) {
+//DB.Debug().Model(RD).Find(&RD)
+//}
 
 func (RD *Student) Validate() error {
 	if RD.Name == " " {
