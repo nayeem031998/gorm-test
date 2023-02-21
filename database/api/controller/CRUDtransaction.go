@@ -67,11 +67,15 @@ func (server *Server) DeleteTransactions(c *gin.Context) {
 }
 func (server *Server) GetTransactions(c *gin.Context) {
 	var (
-		transaction model.Transaction
+		transaction []model.Transaction
 	)
 	id := c.Param("id")
 	if err := server.DB.First(&transaction, id).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if len(transaction) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Transaction Not Found"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Transaction Retrieved Successfully", "data": transaction})
@@ -80,12 +84,17 @@ func (server *Server) GetAllTransactions(c *gin.Context) {
 	var (
 		transaction []model.Transaction
 	)
-	if err := server.DB.Scan(&transaction).Error; err != nil {
+	if err := server.DB.Find(&transaction).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Transactions Retrieved Successfully", "data": transaction})
+	if len(transaction) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Transaction Not Found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Transaction Retrieved Successfully", "data": transaction})
 }
+
 
 
 

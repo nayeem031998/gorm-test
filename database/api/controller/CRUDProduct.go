@@ -41,15 +41,20 @@ func (server *Server) GetProducts(c *gin.Context) {
 		products []model.Products
 		err      error
 	)
-	if err = server.DB.Find(&products).Error; err != nil {
+
+	if err = server.DB.Debug().Find(&products).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if len(products) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No Product Found"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
 func (server *Server) GetProduct(c *gin.Context) {
 	var (
-		product model.Products
+		product []model.Products
 		err     error
 	)
 	id := c.Param("id")
@@ -57,6 +62,11 @@ func (server *Server) GetProduct(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	if len(product) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No Product Found"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
 func (server *Server) UpdateProducts(c *gin.Context) {
@@ -89,6 +99,7 @@ func (server *Server) DeleteProducts(c *gin.Context) {
 	var (
 		product model.Products
 		err     error
+		
 	)
 	id := c.Param("id")
 	if err = server.DB.First(&product, id).Error; err != nil {
@@ -117,15 +128,3 @@ func (server *Server) GetProductsByName(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
-
-
-
-
-
-
-
-
-
-
-
-

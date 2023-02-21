@@ -67,18 +67,22 @@ func (server *Server) DeleteInventoryTrackers(c *gin.Context) {
 
 func (server *Server) GetInventoryTrackers(c *gin.Context) {
 	var (
-		inventorytracker model.InventoryTracker
+		inventorytracker []model.InventoryTracker
 	)
 	id := c.Param("id")
 	if err := server.DB.First(&inventorytracker, id).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	if len(inventorytracker) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "InventoryTracker Not Found"})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "InventoryTracker Found Successfully", "data": inventorytracker})
 }
 func (server *Server) GetAllInventoryTrackers(c *gin.Context) {
 	var (
-		inventorytracker []model.InventoryTracker
+		inventorytracker model.InventoryTracker
 	)
 	if err := server.DB.Find(&inventorytracker).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
